@@ -2,6 +2,13 @@
 
 使用 Vite + react 18 完成的 json 内容展示组件。
 
+## 安装
+
+```shell
+npm install lw-json-view
+# 或者
+yarn add lw-json-view
+```
 
 ## 示例
 
