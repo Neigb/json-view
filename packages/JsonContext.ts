@@ -7,7 +7,7 @@ export const defaultValue: JsonContextType = {
   defaultExpanded: true,
   defaultExpandDepth: 1,
   iconSize: 16,
-  selectable: true,
+  selectable: false,
   showValueTypes: true,
   selectedValue: null,
   selectedInfo: {

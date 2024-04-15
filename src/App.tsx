@@ -13,10 +13,11 @@ export default function App() {
     j: null,
     l: undefined,
   };
+  const selectable = true;
   return (
     <div>
       <h1>Hello, world!</h1>
-      <JsonView value={test} style={{ width: "400px" }} onSelect={console.log} />
+      <JsonView value={test} style={{ width: "400px" }} onSelect={console.log} selectable={selectable} />
     </div>
   );
 }

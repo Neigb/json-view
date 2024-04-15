@@ -10,10 +10,16 @@ import {
   SelectInfo,
   Dict,
   SelectedInfo,
+  JsonContextType,
 } from "./global";
 
 const JsonView: React.FC<JsonViewProps> = function ({
   value,
+  selectable,
+  showStringQuotes,
+  defaultExpanded,
+  defaultExpandDepth,
+  iconSize,
   onSelect,
   className,
   style,
@@ -226,10 +232,21 @@ const JsonView: React.FC<JsonViewProps> = function ({
       onSelect(structuredClone(selectedValue), info.keyName, value, checked ? "select" : "unselect");
     }
   };
+  const props: JsonContextType = {
+    ...defaultValue,
+    selectable: selectable || defaultValue.selectable,
+    showStringQuotes: showStringQuotes || defaultValue.showStringQuotes,
+    iconSize: iconSize || defaultValue.iconSize,
+    defaultExpanded: defaultExpanded || defaultValue.defaultExpanded,
+    defaultExpandDepth: defaultExpandDepth || defaultValue.defaultExpandDepth,
+    selectedValue,
+    onSelect: _onSelect,
+    selectedInfo,
+  };
   return (
     <JsonContext.Provider
       value={{
-        ...defaultValue,
+        ...props,
         selectedValue,
         onSelect: _onSelect,
         selectedInfo,
