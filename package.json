@@ -1,7 +1,7 @@
 {
   "name": "json-view",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -27,5 +27,34 @@
     "eslint-plugin-react-refresh": "^0.4.6",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
-  }
+  },
+  "description": "使用 Vite + react 18 完成的 json 内容展示组件。",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Neigb/json-view.git"
+  },
+  "keywords": [
+    "react",
+    "18",
+    "json",
+    "selectable"
+  ],
+  "author": "Neigb",
+  "license": "Apache-2.0",
+  "files": [
+    "dist"
+  ],
+  "module": "dist/json-view.umd.cjs",
+  "main": "dist/json-view.js",
+  "typings": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/json-view.js",
+      "require": "./dist/json-view.umd.cjs"
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/Neigb/json-view/issues"
+  },
+  "homepage": "https://github.com/Neigb/json-view#readme"
 }

@@ -17,9 +17,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "json-view": ["./packages/index.ts"],
-    }
   },
   "include": ["src", "packages"],
   "references": [{ "path": "./tsconfig.node.json" }]

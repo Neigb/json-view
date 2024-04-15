@@ -1,7 +1,7 @@
 import JsonView from "../packages/JsonView";
 
 export default function App() {
-  const test = {
+  const test = [{
     a: 123,
     b: { e: 9994, k: 123 },
     c: "testtesttesttesttesttesttesttesttest",
@@ -12,7 +12,7 @@ export default function App() {
     i: BigInt(54984816146545),
     j: null,
     l: undefined,
-  };
+  }];
   const selectable = true;
   return (
     <div>

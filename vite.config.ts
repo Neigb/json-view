@@ -16,27 +16,28 @@ export default defineConfig({
     lib: {
       entry: resolvePath("packages/index.ts"),
       name: "json-view",
-      fileName: (format) => `json-view.${format}.js`,
+      // fileName: (format) => `json-view.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "antd"],
+      external: ["react", "react-dom"],
       output: {
         globals: {
           react: "react",
-          antd: "antd",
           "react-dom": "react-dom",
         },
       },
       plugins: [
         typescript({
-          target: "es2015", // 这里指定编译到的版本，
+          target: "es6", // 这里指定编译到的版本，
           rootDir: resolvePath("packages/"),
           declaration: true,
-          declarationDir: resolvePath("dist"),
+          declarationDir: resolvePath("dist/"),
           exclude: resolvePath("node_modules/**"),
           allowSyntheticDefaultImports: true,
         }),
       ],
+      treeshake: true,
     },
+    outDir: resolvePath("dist"),
   },
 });
