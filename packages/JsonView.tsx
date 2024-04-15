@@ -36,17 +36,17 @@ const JsonView: React.FC<JsonViewProps> = function ({
     indeterminateDict: {},
   });
   const computSelectedDict = (newValue: BaseValueType) => {
-    const dfs = (value: BaseValueType, path: string) => {
+    const dfs = (currentValue: BaseValueType, path: string) => {
       const dict: Record<string, boolean> = {};
-      const valueType = getValueType(value);
+      const valueType = getValueType(currentValue);
       if (valueType === TypeEnum.Object || valueType === TypeEnum.Array) {
-        const keys = Object.keys(value as Dict);
+        const keys = Object.keys(currentValue as Dict);
         for (const key of keys) {
           const newPath = `${path}.${key}`;
-          Object.assign(dict, dfs((value as Dict)[key], newPath));
+          Object.assign(dict, dfs((currentValue as Dict)[key], newPath));
         }
         const dict_keys = Object.keys(dict);
-        const selfSelected = !dict_keys.length || dict_keys.some((key) => dict[key]);
+        const selfSelected = dict_keys.some((key) => dict[key]) || (path === "" ? Object.keys(value).length === 0 : keys.length === 0);
         dict[path] = selfSelected;
       } else {
         dict[path] = true;

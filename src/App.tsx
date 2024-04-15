@@ -84,8 +84,10 @@ export default function App() {
     version: 1,
   };
   const selectable = true;
+  const text = "很长很长很长阿珂老师的机票去忘记脾气及配件去评价我清江浦区发奇葩发票情况请"
   return (
     <div>
+      <p style={{ width: "40px", overflow:"hidden", whiteSpace:"nowrap", textOverflow: "ellipsis"}} title={text}>{text}</p>
       <JsonView value={{}} />
       <JsonView value={test} style={{ width: "400px" }} onSelect={console.log} selectable={selectable} />
       <JsonView value={json} selectable={true} showValueTypes={false} />
