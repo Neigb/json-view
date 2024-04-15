@@ -1,7 +1,7 @@
 {
-  "name": "selectable-json-view",
+  "name": "lw-json-view",
   "private": false,
-  "version": "0.0.6",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -44,13 +44,13 @@
   "files": [
     "dist"
   ],
-  "module": "dist/selectable-json-view.umd.cjs",
-  "main": "dist/selectable-json-view.js",
+  "module": "dist/lw-json-view.umd.cjs",
+  "main": "dist/lw-json-view.js",
   "typings": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/selectable-json-view.js",
-      "require": "./dist/selectable-json-view.umd.cjs"
+      "import": "./dist/lw-json-view.js",
+      "require": "./dist/lw-json-view.umd.cjs"
     }
   },
   "bugs": {
