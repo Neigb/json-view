@@ -107,6 +107,7 @@ export interface JsonViewProps {
   indent?: number;
   iconSize?: number;
   showStringQuotes?: boolean;
+  showValueTypes?: boolean;
   className?: string;
   style?: React.CSSProperties;
   onSelect?: (selected: BaseValueType, key: SelectKeyType, value: BaseValueType, type: "select" | "unselect") => void;

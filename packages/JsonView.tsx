@@ -13,12 +13,15 @@ import {
   JsonContextType,
 } from "./global";
 
+const isUndefined = (value: unknown) => value === undefined;
+
 const JsonView: React.FC<JsonViewProps> = function ({
   value,
   selectable,
   showStringQuotes,
   defaultExpanded,
   defaultExpandDepth,
+  showValueTypes,
   iconSize,
   onSelect,
   className,
@@ -36,19 +39,14 @@ const JsonView: React.FC<JsonViewProps> = function ({
     const dfs = (value: BaseValueType, path: string) => {
       const dict: Record<string, boolean> = {};
       const valueType = getValueType(value);
-      if (valueType === TypeEnum.Object) {
-        for (const key in value as Dict) {
+      if (valueType === TypeEnum.Object || valueType === TypeEnum.Array) {
+        const keys = Object.keys(value as Dict);
+        for (const key of keys) {
           const newPath = `${path}.${key}`;
           Object.assign(dict, dfs((value as Dict)[key], newPath));
         }
-        const selfSelected = Object.keys(dict).some((key) => dict[key]);
-        dict[path] = selfSelected;
-      } else if (valueType === TypeEnum.Array) {
-        (value as Array<BaseValueType>).forEach((item, index) => {
-          const newPath = `${path}.${index}`;
-          Object.assign(dict, dfs(item, newPath));
-        });
-        const selfSelected = Object.keys(dict).some((key) => dict[key]);
+        const dict_keys = Object.keys(dict);
+        const selfSelected = !dict_keys.length || dict_keys.some((key) => dict[key]);
         dict[path] = selfSelected;
       } else {
         dict[path] = true;
@@ -234,11 +232,12 @@ const JsonView: React.FC<JsonViewProps> = function ({
   };
   const props: JsonContextType = {
     ...defaultValue,
-    selectable: selectable || defaultValue.selectable,
-    showStringQuotes: showStringQuotes || defaultValue.showStringQuotes,
+    selectable: isUndefined(selectable) ? defaultValue.selectable : selectable!,
+    showStringQuotes: isUndefined(showStringQuotes) ? defaultValue.showStringQuotes : showStringQuotes!,
     iconSize: iconSize || defaultValue.iconSize,
-    defaultExpanded: defaultExpanded || defaultValue.defaultExpanded,
+    defaultExpanded: isUndefined(defaultExpanded) ? defaultValue.defaultExpanded : defaultExpanded!,
     defaultExpandDepth: defaultExpandDepth || defaultValue.defaultExpandDepth,
+    showValueTypes: isUndefined(showValueTypes) ? defaultValue.showValueTypes : showValueTypes!,
     selectedValue,
     onSelect: _onSelect,
     selectedInfo,
