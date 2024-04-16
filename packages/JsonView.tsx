@@ -2,7 +2,7 @@
 import { JsonContext, defaultValue } from "./JsonContext";
 import ElementWrap from "./components/ElementWrap";
 import React, { useEffect, useState } from "react";
-import { getValueType } from "./utils";
+import { getValueType, isUndefined } from "./utils";
 import {
   JsonViewProps,
   BaseValueType,
@@ -14,8 +14,6 @@ import {
   Theme,
 } from "./global";
 import colorMap from "./theme";
-
-const isUndefined = (value: unknown) => value === undefined;
 
 const JsonView: React.FC<JsonViewProps> = function ({
   value,

@@ -26,6 +26,7 @@ export const getValueType = (value: unknown): TypeEnum => {
   return TypeDict[typeof value];
 };
 
+export const isUndefined = (value: unknown) => value === undefined;
 
 export const hasValue = (value: unknown): boolean => {
   if (typeof value !== "object" || value === null) {
