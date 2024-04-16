@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { JsonContext, defaultValue } from "./JsonContext";
 import ElementWrap from "./components/ElementWrap";
-import React, { useState } from "react";
-import { getValueType } from "./utils/valueType";
+import React, { useEffect, useState } from "react";
+import { getValueType } from "./utils";
 import {
   JsonViewProps,
   BaseValueType,
@@ -11,7 +11,9 @@ import {
   Dict,
   SelectedInfo,
   JsonContextType,
+  Theme,
 } from "./global";
+import colorMap from "./theme";
 
 const isUndefined = (value: unknown) => value === undefined;
 
@@ -23,6 +25,7 @@ const JsonView: React.FC<JsonViewProps> = function ({
   defaultExpandDepth,
   showValueTypes,
   iconSize,
+  theme = "default",
   onSelect,
   className,
   style,
@@ -35,6 +38,22 @@ const JsonView: React.FC<JsonViewProps> = function ({
     selectedDict: {},
     indeterminateDict: {},
   });
+
+  const defaultTheme = theme === "default" ? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light" : theme;
+  console.log(defaultTheme);
+  const [_theme, setTheme] = useState<Theme>(colorMap(defaultTheme));
+  const changeTheme = (e: MediaQueryListEvent) => {
+    setTheme(colorMap(e.matches ? "dark" : "light"));
+  }
+  useEffect(() => {
+    setTheme(colorMap(defaultTheme));
+    if (theme === "default") {
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", changeTheme);
+      return () => {
+        window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", changeTheme);
+      }
+    }
+  }, [defaultTheme, theme]);
   const computSelectedDict = (newValue: BaseValueType) => {
     const dfs = (currentValue: BaseValueType, path: string) => {
       const dict: Record<string, boolean> = {};
@@ -239,6 +258,7 @@ const JsonView: React.FC<JsonViewProps> = function ({
     defaultExpandDepth: defaultExpandDepth || defaultValue.defaultExpandDepth,
     showValueTypes: isUndefined(showValueTypes) ? defaultValue.showValueTypes : showValueTypes!,
     selectedValue,
+    theme: _theme,
     onSelect: _onSelect,
     selectedInfo,
   };
@@ -256,6 +276,7 @@ const JsonView: React.FC<JsonViewProps> = function ({
         style={{
           fontSize: "14px",
           fontFamily: "Consolas, Menlo, Courier, monospace",
+          boxSizing: "border-box",
           ...style,
         }}
       >

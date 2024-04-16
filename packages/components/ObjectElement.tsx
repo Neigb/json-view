@@ -1,12 +1,16 @@
+import { useJsonContext } from "../JsonContext";
 import { ObjectElementProps } from "../global";
+import { hasValue } from "../utils";
 import ElementWrap from "./ElementWrap";
 export default function ObjectElement({
   value,
   depth,
   parent,
   keyName,
+  toggleExpand,
   expanded = false,
 }: ObjectElementProps) {
+  const { theme } = useJsonContext();
   const keys = Object.keys(value);
   const content = expanded ? (
     keys.map((key, index) => (
@@ -19,23 +23,22 @@ export default function ObjectElement({
         parent={{ keyName, parent, value }}
       />
     ))
-  ) : (
+  ) : hasValue(value) ? (
     <span
+      onClick={() => toggleExpand(true)}
       style={{
-        background: "rgb(230,230,230)",
+        cursor: "pointer",
+        background: theme.ellipsis,
         borderRadius: "4px",
         padding: "0 5px",
         margin: "0 2px",
-        height: "16px",
       }}
     >
       ...
     </span>
-  );
+  ) : null;
   const style = {
     display: expanded ? "block" : "inline",
   };
-  return (
-    <div style={style}>{content}</div>
-  );
+  return <div style={style}>{content}</div>;
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getValueType } from "../utils/valueType";
+import { getValueType } from "../utils";
 import ObjectElement from "./ObjectElement";
 import StringElement from "./StringElement";
 import ExpandIcon from "./ExpandIcon";
@@ -28,6 +28,7 @@ export default function ElementWrap({
     defaultExpanded,
     selectable,
     selectedInfo,
+    theme,
     onSelect,
   } = useJsonContext();
   const [expanded, setExpanded] = useState(
@@ -52,6 +53,7 @@ export default function ElementWrap({
             value={value as Dict}
             expanded={expanded}
             depth={depth}
+            toggleExpand={onToggleExpand}
             {...commonProps}
           />
         );
@@ -61,6 +63,7 @@ export default function ElementWrap({
             value={value as Array<BaseValueType>}
             expanded={expanded}
             depth={depth}
+            toggleExpand={onToggleExpand}
             {...commonProps}
           />
         );
@@ -114,6 +117,7 @@ export default function ElementWrap({
         padding: "2px 0",
         paddingLeft: !depth ? "25px" : "0",
         boxSizing: "border-box",
+        color: theme.primary,
       }}
     >
       {selectable ? (

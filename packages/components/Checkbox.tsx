@@ -38,6 +38,7 @@ export default function Checkbox({
         verticalAlign: "middle",
         cursor: "pointer",
         height: "fit-content",
+        boxSizing: "border-box",
         ...style,
       }}
       onClick={() => onChange(!(!indeterminate && checked))}
@@ -51,10 +52,11 @@ export default function Checkbox({
       <span
         style={{
           display: "block",
-          width: "14px",
-          height: "14px",
+          width: "16px",
+          height: "16px",
           border: "1px solid #d9d9d9",
           borderRadius: "4px",
+          boxSizing: "border-box",
           background: checked && !indeterminate ? "#1890ff" : "white",
         }}
       ></span>

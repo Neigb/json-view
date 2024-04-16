@@ -1,4 +1,6 @@
+import { useJsonContext } from "../JsonContext";
 import { ArrayElementProps } from "../global";
+import { hasValue } from "../utils";
 import ElementWrap from "./ElementWrap";
 
 export default function ArrayElement({
@@ -6,8 +8,10 @@ export default function ArrayElement({
   depth,
   keyName,
   parent,
+  toggleExpand,
   expanded = false,
 }: ArrayElementProps) {
+  const { theme } = useJsonContext();
   const content = expanded ? (
     value.map((item, index) => (
       <ElementWrap
@@ -19,10 +23,12 @@ export default function ArrayElement({
         parent={{ keyName, parent, value }}
       />
     ))
-  ) : (
+  ) : hasValue(value) ? (
     <span
+      onClick={() => toggleExpand(true)}
       style={{
-        background: "rgb(230,230,230)",
+        cursor: "pointer",
+        background: theme.ellipsis,
         borderRadius: "4px",
         padding: "0 5px",
         margin: "0 2px",
@@ -30,11 +36,9 @@ export default function ArrayElement({
     >
       ...
     </span>
-  );
+  ) : null;
   const style = {
     display: expanded ? "block" : "inline",
   };
-  return (
-    <div style={style}>{content}</div>
-  );
+  return <div style={style}>{content}</div>;
 }

@@ -3,9 +3,9 @@ import { NumberElementProps, TypeEnum } from "../global";
 import ValueType from "./ValueType";
 
 export default function NumberElement({ value, isLast }: NumberElementProps) {
-  const { showValueTypes } = useJsonContext();
+  const { showValueTypes, theme } = useJsonContext();
   return (
-    <span style={{ color: "green" }}>
+    <span style={{ color: theme.number }}>
       {value}
       {!isLast ? (
         <span style={{ color: "gray", marginLeft: "5px" }}>,</span>

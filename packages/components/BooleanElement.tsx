@@ -3,9 +3,9 @@ import { BooleanElementProps, TypeEnum } from "../global";
 import ValueType from "./ValueType";
 
 export default function BooleanElement({ value, isLast }: BooleanElementProps) {
-  const { showValueTypes } = useJsonContext();
+  const { showValueTypes, theme } = useJsonContext();
   return (
-    <span style={{ color: "blue" }}>
+    <span style={{ color: theme.boolean }}>
       {value ? "true" : "false"}
       {!isLast ? (
         <span style={{ color: "gray", marginLeft: "2px" }}>,</span>

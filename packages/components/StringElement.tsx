@@ -3,9 +3,9 @@ import { StringElementProps, TypeEnum } from "../global";
 import ValueType from "./ValueType";
 
 export default function StringElement({ value, isLast }: StringElementProps) {
-  const { showValueTypes } = useJsonContext();
+  const { showValueTypes, theme } = useJsonContext();
   return (
-    <span style={{ color: "orange" }}>
+    <span style={{ color: theme.string }}>
       "{value}"
       {!isLast ? (
         <span style={{ color: "gray", marginLeft: "2px" }}>,</span>

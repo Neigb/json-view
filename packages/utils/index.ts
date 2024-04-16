@@ -25,3 +25,11 @@ export const getValueType = (value: unknown): TypeEnum => {
   }
   return TypeDict[typeof value];
 };
+
+
+export const hasValue = (value: unknown): boolean => {
+  if (typeof value !== "object" || value === null) {
+    return true;
+  }
+  return Object.keys(value).length > 0;
+}

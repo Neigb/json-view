@@ -49,12 +49,14 @@ export interface ElementCommonProps<T> {
 export interface ObjectElementProps
   extends ElementCommonProps<{ [key: string|number]: BaseValueType }> {
   depth: number;
+  toggleExpand: (value: boolean) => void,
   expanded?: boolean;
 }
 
 export interface ArrayElementProps
   extends ElementCommonProps<Array<BaseValueType>> {
   depth: number;
+  toggleExpand: (value: boolean) => void,
   expanded?: boolean;
 }
 
@@ -96,6 +98,7 @@ export interface JsonContextType {
   showValueTypes: boolean;
   selectedValue: BaseValueType | null;
   selectedInfo: SelectedInfo,
+  theme: Theme,
   onSelect: (info: SelectInfo) => void;
 }
 
@@ -108,6 +111,7 @@ export interface JsonViewProps {
   iconSize?: number;
   showStringQuotes?: boolean;
   showValueTypes?: boolean;
+  theme?: "light" | "dark" | "default" | Theme;
   className?: string;
   style?: React.CSSProperties;
   onSelect?: (selected: BaseValueType, key: SelectKeyType, value: BaseValueType, type: "select" | "unselect") => void;
@@ -128,6 +132,20 @@ export enum TypeEnum {
   Symbol = "symbol",
   BigInt = "bigint",
   Date = "date",
+}
+
+export interface Theme {
+  primary: string;
+  secondary: string;
+  string: string;
+  number: string;
+  boolean: string;
+  null: string;
+  undefined: string;
+  BigInt: string;
+  Date: string;
+  type: string,
+  ellipsis: string,
 }
 
 export const NoneValue = Symbol("NoneValue");

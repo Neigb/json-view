@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'react';
 import { JsonContextType } from './global';
+import colorMap from './theme';
 
 export const defaultValue: JsonContextType = {
   indent: 18,
@@ -14,6 +15,7 @@ export const defaultValue: JsonContextType = {
     selectedDict: {},
     indeterminateDict: {},
   },
+  theme: colorMap("light"),
   onSelect: () => {},
 };
 
