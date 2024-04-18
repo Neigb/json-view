@@ -12,6 +12,7 @@ import {
   SelectedInfo,
   JsonContextType,
   Theme,
+  NoneValue,
 } from "./global";
 import colorMap from "./theme";
 
@@ -26,10 +27,28 @@ const JsonView: React.FC<JsonViewProps> = function ({
   stringMaxLength,
   theme = "default",
   onSelect,
+  canSelectFn,
   className,
   style,
 }: JsonViewProps) {
   const valueType = getValueType(value);
+  const selectValueCandidate = structuredClone(value) as BaseValueType;
+  if (canSelectFn) {
+    const dfs = (depth: number, keyName: string | number, value: BaseValueType, parent?: BaseValueType ) => {
+      if (parent && !canSelectFn(depth, keyName, parent)) {
+        delete (parent as Dict)[keyName];
+        return;
+      }
+      const valueType = getValueType(value);
+      if (valueType === TypeEnum.Object || valueType === TypeEnum.Array) {
+        const keys = Object.keys(value as Dict);
+        for (const key of keys) {
+          dfs(depth + 1, key, (value as Dict)[key], value);
+        }
+      }
+    }
+    dfs(0, "", selectValueCandidate, undefined);
+  }
   const [selectedValue, setSelectedValue] = useState<BaseValueType>(
     valueType === TypeEnum.Array ? [] : {}
   );
@@ -63,7 +82,7 @@ const JsonView: React.FC<JsonViewProps> = function ({
           Object.assign(dict, dfs((currentValue as Dict)[key], newPath));
         }
         const dict_keys = Object.keys(dict);
-        const selfSelected = dict_keys.some((key) => dict[key]) || (path === "" ? Object.keys(value).length === 0 : keys.length === 0);
+        const selfSelected = dict_keys.some((key) => dict[key]) || (path === "" ? Object.keys(selectValueCandidate).length === 0 : keys.length === 0);
         dict[path] = selfSelected;
       } else {
         dict[path] = true;
@@ -75,7 +94,7 @@ const JsonView: React.FC<JsonViewProps> = function ({
   };
   const computIndeterminateDict = (selectedDict: Record<string, boolean>) => {
     const dict: Record<string, boolean> = {};
-    const temp = value;
+    const temp = selectValueCandidate;
     const dfs = (value: BaseValueType, path: string) => {
       const valueType = getValueType(value);
       if (valueType === TypeEnum.Object || valueType === TypeEnum.Array) {
@@ -174,6 +193,7 @@ const JsonView: React.FC<JsonViewProps> = function ({
     }
     setSelectedValue(structuredClone(newValue) as BaseValueType);
     setSelectedDict(newValue);
+    return newValue;
   };
 
   const removeValue = (info: SelectInfo) => {
@@ -221,30 +241,33 @@ const JsonView: React.FC<JsonViewProps> = function ({
     }
     setSelectedValue(structuredClone(selectedValue) as BaseValueType);
     setSelectedDict(selectedValue);
+    return selectedValue;
   };
   const _onSelect = (info: SelectInfo) => {
     const { checked, value, depth } = info;
     // 根节点处理
+    let newValue;
     if (depth === 0) {
-      const valueType = getValueType(value);
+      const valueType = getValueType(selectValueCandidate);
       if (valueType === TypeEnum.Array) {
-        setSelectedValue(checked ? structuredClone(value) : []);
-        setSelectedDict(checked ? value : []);
+        newValue = checked ? selectValueCandidate : [];
       } else if (valueType === TypeEnum.Object) {
-        setSelectedValue(checked ? structuredClone(value) : {});
-        setSelectedDict(checked ? value : {});
+        newValue = checked ? selectValueCandidate : {};
+        // setSelectedValue(checked ? structuredClone(selectValueCandidate) : {});
+        // setSelectedDict(checked ? value : {});
       } else {
         console.error("Root value must be an object or an array");
+        throw new Error("Root value must be an object or an array");
       }
+      setSelectedValue(structuredClone(newValue) as BaseValueType);
+      setSelectedDict(newValue);
+    } else if (checked) {
+      newValue = addValue(info);
     } else {
-      if (checked) {
-        addValue(info);
-      } else {
-        removeValue(info);
-      }
+      newValue = removeValue(info);
     }
     if (onSelect) {
-      onSelect(structuredClone(selectedValue), info.keyName, value, checked ? "select" : "unselect");
+      onSelect(structuredClone(newValue), info.keyName, value, checked ? "select" : "unselect");
     }
   };
   const props: JsonContextType = {
@@ -259,6 +282,7 @@ const JsonView: React.FC<JsonViewProps> = function ({
     selectedValue,
     theme: _theme,
     onSelect: _onSelect,
+    selectValueCandidate,
     selectedInfo,
   };
   return (

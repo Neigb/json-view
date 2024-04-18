@@ -30,6 +30,7 @@ export default function ElementWrap({
     selectedInfo,
     theme,
     onSelect,
+    selectValueCandidate,
   } = useJsonContext();
   const [expanded, setExpanded] = useState(
     defaultExpanded && depth < defaultExpandDepth
@@ -97,8 +98,9 @@ export default function ElementWrap({
   const marginLeft = indent * depth - (canExpand && !selectable ? iconSize : 0);
   let isChecked = false;
   let indeterminate = false;
+  let canSelect = selectable;
   if (selectable) {
-    let path = keyName === undefined ? "" : keyName;
+    let path = keyName === undefined ? "" : String(keyName);
     let currentParent = parent;
     while (currentParent) {
       const currentKey =
@@ -109,6 +111,16 @@ export default function ElementWrap({
     const { selectedDict, indeterminateDict } = selectedInfo;
     isChecked = selectedDict[path] || false;
     indeterminate = indeterminateDict[path] || false;
+    const pathArray = path.split(".");
+    let p_parent = selectValueCandidate;
+    for (let i = 1; i < pathArray.length; i++) {
+      const p = pathArray[i];
+      if (!p_parent || !Object.prototype.hasOwnProperty.call(p_parent, p)) {
+        canSelect = false;
+        break;
+      }
+      p_parent = (p_parent as Dict)[p];
+    }
   }
 
   return (
@@ -121,7 +133,7 @@ export default function ElementWrap({
         color: theme.primary,
       }}
     >
-      {selectable ? (
+      {canSelect ? (
         <Checkbox
           style={{ marginRight: "4px" }}
           checked={isChecked}

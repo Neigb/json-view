@@ -100,6 +100,7 @@ export interface JsonContextType {
   selectedInfo: SelectedInfo,
   stringMaxLength: number;
   theme: Theme,
+  selectValueCandidate: BaseValueType | null;
   onSelect: (info: SelectInfo) => void;
 }
 
@@ -117,6 +118,7 @@ export interface JsonViewProps {
   className?: string;
   style?: React.CSSProperties;
   onSelect?: (selected: BaseValueType, key: SelectKeyType, value: BaseValueType, type: "select" | "unselect") => void;
+  canSelectFn?: (level: number, keyName: string | number, value: BaseValueType) => boolean,
   errorComponent?: React.ComponentType<{
     error: Error;
   }>;
@@ -151,3 +153,4 @@ export interface Theme {
 }
 
 export const NoneValue = Symbol("NoneValue");
+export type None = typeof NoneValue;
