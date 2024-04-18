@@ -117,7 +117,7 @@ export default function App() {
       <JsonView
         theme={theme}
         value={test}
-        style={{ width: "400px" }}
+        style={{ width: "500px" }}
         onSelect={console.log}
         selectable={selectable}
       />

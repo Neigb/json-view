@@ -2,8 +2,8 @@ import { CheckboxProps } from "../global";
 
 const checkedStyle = {
   border: "2px solid white",
-  width: "4px",
-  height: "6px",
+  width: "6px",
+  height: "8px",
   borderTop: "0",
   borderInlineStart: 0,
   insetInlineStart: "25%",
@@ -64,6 +64,7 @@ export default function Checkbox({
         style={{
           display: checked ? "block" : "none",
           position: "absolute",
+          boxSizing: "border-box",
           ...defaultStyle,
         }}
       ></span>

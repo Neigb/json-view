@@ -11,6 +11,7 @@ export const defaultValue: JsonContextType = {
   selectable: false,
   showValueTypes: true,
   selectedValue: null,
+  stringMaxLength: 16,
   selectedInfo: {
     selectedDict: {},
     indeterminateDict: {},

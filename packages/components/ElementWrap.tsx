@@ -101,7 +101,8 @@ export default function ElementWrap({
     let path = keyName === undefined ? "" : keyName;
     let currentParent = parent;
     while (currentParent) {
-      const currentKey = currentParent.keyName === undefined ? "" : currentParent.keyName;
+      const currentKey =
+        currentParent.keyName === undefined ? "" : currentParent.keyName;
       path = `${currentKey}.${path}`;
       currentParent = currentParent.parent;
     }
@@ -138,9 +139,13 @@ export default function ElementWrap({
         </span>
       )}
       {canExpand ? <span>{expandStartSymbol}</span> : null}
-      <div style={{ display: expanded ? "block" : "inline-block" }}>
-        {getContent(value)}
-      </div>
+      {valueType === TypeEnum.Object || TypeEnum.Array ? (
+        <div style={{ display: expanded ? "block" : "inline-block" }}>
+          {getContent(value)}
+        </div>
+      ) : (
+        getContent(value)
+      )}
       {canExpand ? (
         <span style={{ marginLeft: expanded ? `${iconSize}px` : "0" }}>
           {expandEndSymbol}

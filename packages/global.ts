@@ -98,6 +98,7 @@ export interface JsonContextType {
   showValueTypes: boolean;
   selectedValue: BaseValueType | null;
   selectedInfo: SelectedInfo,
+  stringMaxLength: number;
   theme: Theme,
   onSelect: (info: SelectInfo) => void;
 }
@@ -111,6 +112,7 @@ export interface JsonViewProps {
   iconSize?: number;
   showStringQuotes?: boolean;
   showValueTypes?: boolean;
+  stringMaxLength?: number;
   theme?: "light" | "dark" | "default" | Theme;
   className?: string;
   style?: React.CSSProperties;

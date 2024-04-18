@@ -23,6 +23,7 @@ const JsonView: React.FC<JsonViewProps> = function ({
   defaultExpandDepth,
   showValueTypes,
   iconSize,
+  stringMaxLength,
   theme = "default",
   onSelect,
   className,
@@ -38,7 +39,6 @@ const JsonView: React.FC<JsonViewProps> = function ({
   });
 
   const defaultTheme = theme === "default" ? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light" : theme;
-  console.log(defaultTheme);
   const [_theme, setTheme] = useState<Theme>(colorMap(defaultTheme));
   const changeTheme = (e: MediaQueryListEvent) => {
     setTheme(colorMap(e.matches ? "dark" : "light"));
@@ -255,6 +255,7 @@ const JsonView: React.FC<JsonViewProps> = function ({
     defaultExpanded: isUndefined(defaultExpanded) ? defaultValue.defaultExpanded : defaultExpanded!,
     defaultExpandDepth: defaultExpandDepth || defaultValue.defaultExpandDepth,
     showValueTypes: isUndefined(showValueTypes) ? defaultValue.showValueTypes : showValueTypes!,
+    stringMaxLength: isUndefined(stringMaxLength) ? defaultValue.stringMaxLength : stringMaxLength!,
     selectedValue,
     theme: _theme,
     onSelect: _onSelect,

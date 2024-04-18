@@ -1,7 +1,7 @@
-import { useJsonContext } from "../JsonContext";
 import { ObjectElementProps } from "../global";
 import { hasValue } from "../utils";
 import ElementWrap from "./ElementWrap";
+import Ellipsis from "./Ellipsis";
 export default function ObjectElement({
   value,
   depth,
@@ -10,7 +10,6 @@ export default function ObjectElement({
   toggleExpand,
   expanded = false,
 }: ObjectElementProps) {
-  const { theme } = useJsonContext();
   const keys = Object.keys(value);
   const content = expanded ? (
     keys.map((key, index) => (
@@ -24,18 +23,7 @@ export default function ObjectElement({
       />
     ))
   ) : hasValue(value) ? (
-    <span
-      onClick={() => toggleExpand(true)}
-      style={{
-        cursor: "pointer",
-        background: theme.ellipsis,
-        borderRadius: "4px",
-        padding: "0 5px",
-        margin: "0 2px",
-      }}
-    >
-      ...
-    </span>
+    <Ellipsis onClick={() => toggleExpand(true)} />
   ) : null;
   const style = {
     display: expanded ? "block" : "inline",
