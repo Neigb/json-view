@@ -139,7 +139,7 @@ export default function ElementWrap({
         </span>
       )}
       {canExpand ? <span>{expandStartSymbol}</span> : null}
-      {valueType === TypeEnum.Object || TypeEnum.Array ? (
+      {(valueType === TypeEnum.Object || valueType === TypeEnum.Array) ? (
         <div style={{ display: expanded ? "block" : "inline-block" }}>
           {getContent(value)}
         </div>
