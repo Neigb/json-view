@@ -20,12 +20,6 @@ export default defineConfig({
     },
     rollupOptions: {
       external: ["react", "react-dom"],
-      output: {
-        globals: {
-          react: "react",
-          "react-dom": "react-dom",
-        },
-      },
       plugins: [
         typescript({
           target: "es6", // 这里指定编译到的版本，
