@@ -12,7 +12,6 @@ import {
   SelectedInfo,
   JsonContextType,
   Theme,
-  NoneValue,
 } from "./global";
 import colorMap from "./theme";
 
@@ -82,7 +81,7 @@ const JsonView: React.FC<JsonViewProps> = function ({
           Object.assign(dict, dfs((currentValue as Dict)[key], newPath));
         }
         const dict_keys = Object.keys(dict);
-        const selfSelected = dict_keys.some((key) => dict[key]) || (path === "" ? Object.keys(selectValueCandidate).length === 0 : keys.length === 0);
+        const selfSelected = dict_keys.some((key) => dict[key]) || (path === "" ? Object.keys(selectValueCandidate as Dict).length === 0 : keys.length === 0);
         dict[path] = selfSelected;
       } else {
         dict[path] = true;

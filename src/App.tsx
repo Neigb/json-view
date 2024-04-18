@@ -59,7 +59,7 @@ export default function App() {
         style={{ width: "500px" }}
         onSelect={console.log}
         selectable={selectable}
-        canSelectFn={(level, keyName) => !["create_time", "user"].includes(String(keyName))}
+        canSelectFn={(_, keyName) => !["create_time", "user"].includes(String(keyName))}
       />
     </div>
   );

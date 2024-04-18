@@ -18,6 +18,7 @@ export const defaultValue: JsonContextType = {
   },
   theme: colorMap("light"),
   onSelect: () => {},
+  selectValueCandidate: undefined
 };
 
 export const JsonContext = createContext<JsonContextType>(defaultValue);
