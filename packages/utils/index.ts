@@ -34,3 +34,8 @@ export const hasValue = (value: unknown): boolean => {
   }
   return Object.keys(value).length > 0;
 }
+
+export const isDict = (value: unknown): boolean => {
+  const valueType = getValueType(value);
+  return valueType === TypeEnum.Object || valueType === TypeEnum.Array;
+}

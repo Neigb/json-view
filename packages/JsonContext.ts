@@ -17,8 +17,9 @@ export const defaultValue: JsonContextType = {
     indeterminateDict: {},
   },
   theme: colorMap("light"),
-  onSelect: () => {},
-  selectValueCandidate: undefined
+  onSelect: () => { },
+  selectValueCandidate: undefined,
+  selectableDict: {},
 };
 
 export const JsonContext = createContext<JsonContextType>(defaultValue);

@@ -1,4 +1,4 @@
-import { ArrayElementProps } from "../global";
+import { ArrayElementProps, Dict } from "../global";
 import { hasValue } from "../utils";
 import ElementWrap from "./ElementWrap";
 import Ellipsis from "./Ellipsis";
@@ -9,6 +9,7 @@ export default function ArrayElement({
   keyName,
   parent,
   toggleExpand,
+  candidate,
   expanded = false,
 }: ArrayElementProps) {
   const content = expanded ? (
@@ -20,6 +21,7 @@ export default function ArrayElement({
         depth={depth + 1}
         isLast={index + 1 === value.length}
         parent={{ keyName, parent, value }}
+        candidate={ candidate ? (candidate as Dict)[index] : item }
       />
     ))
   ) : hasValue(value) ? (

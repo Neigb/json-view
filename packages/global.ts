@@ -1,5 +1,5 @@
 export type BaseValueType =
-  | { [key: string | number]: BaseValueType}
+  | { [key: string | number]: BaseValueType }
   | Array<BaseValueType>
   | string
   | number
@@ -9,14 +9,13 @@ export type BaseValueType =
   | bigint
   | Date;
 
-export type Dict = { [key: string | number]: BaseValueType};
+export type Dict = { [key: string | number]: BaseValueType };
 export type SelectKeyType = string | number | undefined;
 export interface SelectInfo {
-  keyName?: SelectKeyType;
   checked: boolean;
+  keyPath: string[];
   depth: number;
-  value?: BaseValueType;
-  parent?: ElementWrapParent;
+  candidateValue: BaseValueType;
 }
 
 export interface ElementWrapProps extends ElementCommonProps<BaseValueType> {
@@ -36,27 +35,29 @@ export interface ElementWrapProps extends ElementCommonProps<BaseValueType> {
 export interface ElementWrapParent {
   keyName?: string | number;
   value?: BaseValueType;
+  candidate?: BaseValueType;
   parent?: ElementWrapParent;
 }
 
 export interface ElementCommonProps<T> {
   value: T;
+  candidate: BaseValueType;
   keyName?: string | number;
   isLast?: boolean;
   parent?: ElementWrapParent;
 }
 
 export interface ObjectElementProps
-  extends ElementCommonProps<{ [key: string|number]: BaseValueType }> {
+  extends ElementCommonProps<{ [key: string | number]: BaseValueType }> {
   depth: number;
-  toggleExpand: (value: boolean) => void,
+  toggleExpand: (value: boolean) => void;
   expanded?: boolean;
 }
 
 export interface ArrayElementProps
   extends ElementCommonProps<Array<BaseValueType>> {
   depth: number;
-  toggleExpand: (value: boolean) => void,
+  toggleExpand: (value: boolean) => void;
   expanded?: boolean;
 }
 
@@ -88,18 +89,28 @@ export interface SelectedInfo {
   indeterminateDict: Record<string, boolean>;
 }
 
+export type SelectableType =
+  | boolean
+  | (string | number)[]
+  | ((
+      level: number,
+      keyName: string | number,
+      value: BaseValueType
+    ) => boolean);
+
 export interface JsonContextType {
   indent: number;
   showStringQuotes: boolean;
   defaultExpanded: boolean;
   defaultExpandDepth: number;
-  selectable: boolean;
+  selectable: SelectableType;
   iconSize: number;
   showValueTypes: boolean;
   selectedValue: BaseValueType | null;
-  selectedInfo: SelectedInfo,
+  selectedInfo: SelectedInfo;
+  selectableDict: Record<string, boolean>;
   stringMaxLength: number;
-  theme: Theme,
+  theme: Theme;
   selectValueCandidate: BaseValueType | null;
   onSelect: (info: SelectInfo) => void;
 }
@@ -108,7 +119,14 @@ export interface JsonViewProps {
   value: { [key: string | number]: BaseValueType } | Array<BaseValueType>;
   defaultExpanded?: boolean;
   defaultExpandDepth?: number;
-  selectable?: boolean;
+  selectable?:
+    | boolean
+    | (string | number)[]
+    | ((
+        level: number,
+        keyName: string | number,
+        value: BaseValueType
+      ) => boolean);
   indent?: number;
   iconSize?: number;
   showStringQuotes?: boolean;
@@ -117,8 +135,11 @@ export interface JsonViewProps {
   theme?: "light" | "dark" | "default" | Theme;
   className?: string;
   style?: React.CSSProperties;
-  onSelect?: (selected: BaseValueType, key: SelectKeyType, value: BaseValueType, type: "select" | "unselect") => void;
-  canSelectFn?: (level: number, keyName: string | number, value: BaseValueType) => boolean,
+  onSelect?: (
+    key: SelectKeyType,
+    value: BaseValueType,
+    checked: boolean
+  ) => void;
   errorComponent?: React.ComponentType<{
     error: Error;
   }>;
@@ -148,8 +169,8 @@ export interface Theme {
   undefined: string;
   BigInt: string;
   Date: string;
-  type: string,
-  ellipsis: string,
+  type: string;
+  ellipsis: string;
 }
 
 export const NoneValue = Symbol("NoneValue");

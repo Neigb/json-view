@@ -1,4 +1,4 @@
-import { ObjectElementProps } from "../global";
+import { Dict, ObjectElementProps } from "../global";
 import { hasValue } from "../utils";
 import ElementWrap from "./ElementWrap";
 import Ellipsis from "./Ellipsis";
@@ -8,6 +8,7 @@ export default function ObjectElement({
   parent,
   keyName,
   toggleExpand,
+  candidate,
   expanded = false,
 }: ObjectElementProps) {
   const keys = Object.keys(value);
@@ -20,6 +21,7 @@ export default function ObjectElement({
         depth={depth + 1}
         isLast={index + 1 === keys.length}
         parent={{ keyName, parent, value }}
+        candidate={ candidate ? (candidate as Dict)[key] : value[key]}
       />
     ))
   ) : hasValue(value) ? (

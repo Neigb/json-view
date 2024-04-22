@@ -19,6 +19,7 @@ export default function ElementWrap({
   depth = 0,
   isLast,
   parent,
+  candidate,
 }: ElementWrapProps) {
   const {
     showStringQuotes,
@@ -26,11 +27,10 @@ export default function ElementWrap({
     iconSize,
     defaultExpandDepth,
     defaultExpanded,
-    selectable,
     selectedInfo,
     theme,
     onSelect,
-    selectValueCandidate,
+    selectableDict,
   } = useJsonContext();
   const [expanded, setExpanded] = useState(
     defaultExpanded && depth < defaultExpandDepth
@@ -44,7 +44,7 @@ export default function ElementWrap({
 
   const getContent = (value: BaseValueType) => {
     const type = getValueType(value);
-    const commonProps = { keyName, isLast, parent };
+    const commonProps = { keyName, isLast, parent, candidate };
     switch (type) {
       case TypeEnum.String:
         return <StringElement value={value as string} {...commonProps} />;
@@ -79,7 +79,7 @@ export default function ElementWrap({
       case TypeEnum.Undefined:
         return <UndefinedElement value={value as undefined} {...commonProps} />;
       default:
-        return <span style={{ color: "red" }}>{String(value)} TODO</span>;
+        return <span style={{ color: "red" }}>{String(value)} // TODO</span>;
     }
   };
   const valueType = getValueType(value);
@@ -95,34 +95,30 @@ export default function ElementWrap({
       expandEndSymbol = "]";
     }
   }
-  const marginLeft = indent * depth - (canExpand && !selectable ? iconSize : 0);
-  let isChecked = false;
-  let indeterminate = false;
-  let canSelect = selectable;
-  if (selectable) {
-    let path = keyName === undefined ? "" : String(keyName);
-    let currentParent = parent;
-    while (currentParent) {
-      const currentKey =
-        currentParent.keyName === undefined ? "" : currentParent.keyName;
-      path = `${currentKey}.${path}`;
-      currentParent = currentParent.parent;
-    }
-    const { selectedDict, indeterminateDict } = selectedInfo;
-    isChecked = selectedDict[path] || false;
-    indeterminate = indeterminateDict[path] || false;
-    const pathArray = path.split(".");
-    let p_parent = selectValueCandidate;
-    for (let i = 1; i < pathArray.length; i++) {
-      const p = pathArray[i];
-      if (!p_parent || !Object.prototype.hasOwnProperty.call(p_parent, p)) {
-        canSelect = false;
-        break;
-      }
-      p_parent = (p_parent as Dict)[p];
-    }
+  let path = keyName === undefined ? "" : String(keyName);
+  let currentParent = parent;
+  while (currentParent) {
+    const currentKey =
+      currentParent.keyName === undefined ? "" : currentParent.keyName;
+    path = `${currentKey}.${path}`;
+    currentParent = currentParent.parent;
   }
+  const selectedDict = selectedInfo.selectedDict;
+  const indeterminateDict = selectedInfo.indeterminateDict;
+  let indeterminate = false;
+  let checked = false;
+  const selectable = selectableDict[path];
 
+  if (indeterminateDict[path]) {
+    indeterminate = true;
+  }
+  if (selectedDict[path]) {
+    checked = true;
+  } else {
+    checked = false;
+    indeterminate = false;
+  }
+  const marginLeft = indent * depth - (canExpand && !selectable ? iconSize : 0);
   return (
     <div
       style={{
@@ -133,13 +129,19 @@ export default function ElementWrap({
         color: theme.primary,
       }}
     >
-      {canSelect ? (
+      {selectable ? (
         <Checkbox
           style={{ marginRight: "4px" }}
-          checked={isChecked}
+          checked={checked}
           indeterminate={indeterminate}
           onChange={(checked: boolean) => {
-            onSelect && onSelect({ keyName, parent, depth, checked, value });
+            onSelect &&
+              onSelect({
+                keyPath: path.split(".").slice(1),
+                checked,
+                depth,
+                candidateValue: candidate,
+              });
           }}
         />
       ) : null}
@@ -151,7 +153,7 @@ export default function ElementWrap({
         </span>
       )}
       {canExpand ? <span>{expandStartSymbol}</span> : null}
-      {(valueType === TypeEnum.Object || valueType === TypeEnum.Array) ? (
+      {valueType === TypeEnum.Object || valueType === TypeEnum.Array ? (
         <div style={{ display: expanded ? "block" : "inline-block" }}>
           {getContent(value)}
         </div>

@@ -4,7 +4,7 @@ import JsonView from "../packages/JsonView";
 export default function App() {
   const value = {
     a: 123,
-    b: { e: 9994, k: 123 },
+    b: { e: 9994, k: 123, m: { n: "value"} },
     c: "testtesttesttesttesttesttesttesttest",
     d: [1, null, 2, 3, true, false, "gg"],
     f: true,
@@ -56,10 +56,8 @@ export default function App() {
       <JsonView
         theme={theme}
         value={value}
-        style={{ width: "500px" }}
         onSelect={console.log}
-        selectable={selectable}
-        canSelectFn={(_, keyName) => !["create_time", "user"].includes(String(keyName))}
+        selectable={["create_time", "user", "b", "m", "d", "0"]}
       />
     </div>
   );
