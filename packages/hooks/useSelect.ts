@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BaseValueType,
   Dict,
@@ -28,7 +28,6 @@ export default function useSelect({
   selectable,
   value,
   onSelect,
-  defaultSelect,
 }: {
   selectable: SelectableType;
   value: BaseValueType;
