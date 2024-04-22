@@ -27,7 +27,7 @@ const JsonView: React.FC<JsonViewProps> = function ({
   className,
   style,
 }: JsonViewProps) {
-  const { selectedInfo, selectCandidate, innerOnSelect, selectableDict } = useSelect({ selectable: selectable || false, value, defaultSelect: false, onSelect: console.log });
+  const { selectedInfo, selectCandidate, innerOnSelect, selectableDict } = useSelect({ selectable: selectable || false, value, defaultSelect: false, onSelect });
   
   const _onSelect = (info: SelectInfo) => {
     innerOnSelect(info)
