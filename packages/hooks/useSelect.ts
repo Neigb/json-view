@@ -32,7 +32,11 @@ export default function useSelect({
   selectable: SelectableType;
   value: BaseValueType;
   defaultSelect: boolean;
-  onSelect?: (key: SelectKeyType, value: BaseValueType, checked: boolean ) => void;
+  onSelect?: (
+    key: SelectKeyType,
+    value: BaseValueType,
+    checked: boolean
+  ) => void;
 }) {
   const valueType = getValueType(value);
   const defaultValue = valueType === "object" ? {} : [];
@@ -103,11 +107,13 @@ export default function useSelect({
       fullPath: string,
       candidate: BaseValueType
     ) => {
-      selectedDict[fullPath] = hasValue(value);
+      if (!depth && !hasValue(value)) { return ; }
+      selectedDict[fullPath] = true;
       if (isDict(value)) {
         // 选中的数量和候选的数量不一样，那么就是半选
         if (
           hasValue(candidate) &&
+          Object.keys(candidate as Dict).length > 0 &&
           Object.keys(candidate as Dict).length !==
             Object.keys(value as Dict).length
         ) {
@@ -168,7 +174,6 @@ export default function useSelect({
     updateSelectedInfo(newValue);
     onSelect && onSelect(keyPath.pop(), newValue, checked);
   };
-
 
   return {
     selectedValue,
