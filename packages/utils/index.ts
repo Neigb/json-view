@@ -39,3 +39,7 @@ export const isDict = (value: unknown): boolean => {
   const valueType = getValueType(value);
   return valueType === TypeEnum.Object || valueType === TypeEnum.Array;
 }
+
+export const isLink = (value: string): boolean => {
+  return /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(value);
+}

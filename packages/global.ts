@@ -163,6 +163,7 @@ export interface Theme {
   primary: string;
   secondary: string;
   string: string;
+  link: string;
   number: string;
   boolean: string;
   null: string;

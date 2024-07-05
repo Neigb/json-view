@@ -5,7 +5,7 @@ export default function App() {
   const value = {
     a: 123,
     b: { e: 9994, k: 123, m: { n: "value"} },
-    c: "testtesttesttesttesttesttesttesttest",
+    c: "https://www.baidu.com/",
     d: [1, null, 2, 3, true, false, "gg"],
     f: true,
     g: false,

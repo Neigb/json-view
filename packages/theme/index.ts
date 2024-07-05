@@ -5,13 +5,14 @@ const lightTheme: Theme = {
   secondary: '#E6E6E6',
   string: 'red',
   number: '#00A000',
-  boolean: '#00f',
+  boolean: '#5558cc',
   null: '#FFA0CB',
   undefined: '#DEB887',
   BigInt: '#800080',
   Date: "",
   type: "#808080",
   ellipsis: "#DDD",
+  link: "#0366D6",
 }
 
 const darkTheme: Theme = {
@@ -26,6 +27,7 @@ const darkTheme: Theme = {
   Date: "",
   type: "#808080",
   ellipsis: "#DDD",
+  link: "#0366D6",
 }
 
 const colorMap = (theme: "light" | "dark" | Theme) => {
@@ -33,17 +35,7 @@ const colorMap = (theme: "light" | "dark" | Theme) => {
   if (theme === 'dark') return darkTheme;
   if (typeof theme === 'string') throw new Error('Invalid theme');
   return {
-    primary: theme.primary,
-    secondary: theme.secondary,
-    string: theme.string,
-    number: theme.number,
-    boolean: theme.boolean,
-    'null': theme.null,
-    'undefined': theme.undefined,
-    BigInt: theme.BigInt,
-    Date: theme.Date,
-    type: theme.type,
-    ellipsis: theme.ellipsis,
+   ...theme
   };
 }
 
