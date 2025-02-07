@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { JsonContext, defaultValue } from "./JsonContext";
 import ElementWrap from "./components/ElementWrap";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { isUndefined } from "./utils";
 import {
   JsonViewProps,
@@ -34,9 +34,9 @@ const JsonView: React.FC<JsonViewProps> = function ({
   }
   const defaultTheme = theme === "default" ? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light" : theme;
   const [_theme, setTheme] = useState<Theme>(colorMap(defaultTheme));
-  const changeTheme = (e: MediaQueryListEvent) => {
+  const changeTheme = useCallback((e: MediaQueryListEvent) => {
     setTheme(colorMap(e.matches ? "dark" : "light"));
-  }
+  }, []);
 
   useEffect(() => {
     setTheme(colorMap(defaultTheme));
@@ -46,7 +46,7 @@ const JsonView: React.FC<JsonViewProps> = function ({
         window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", changeTheme);
       }
     }
-  }, [defaultTheme, theme]);
+  }, [defaultTheme, theme, changeTheme]);
   
 
   const props: JsonContextType = {
