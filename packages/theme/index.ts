@@ -30,10 +30,13 @@ const darkTheme: Theme = {
   link: "#0366D6",
 }
 
-const colorMap = (theme: "light" | "dark" | Theme) => {
-  if (theme === 'light') return lightTheme;
+const colorMap = (theme: "light" | "dark" | "default" | Theme) => {
+  if (theme === 'light' || theme === 'default') return lightTheme;
   if (theme === 'dark') return darkTheme;
-  if (typeof theme === 'string') throw new Error('Invalid theme');
+  if (typeof theme === 'string') {
+    console.warn('Invalid theme');
+    return lightTheme;
+  }
   return {
    ...theme
   };
