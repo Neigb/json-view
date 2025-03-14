@@ -17,7 +17,7 @@ export default function App() {
     user: "lw-json-view",
     empty: {},
   };
-  const selectable = true;
+  const selectable = false;
 
   const _initValue = window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"

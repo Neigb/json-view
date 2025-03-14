@@ -118,7 +118,7 @@ export default function ElementWrap({
     checked = false;
     indeterminate = false;
   }
-  const marginLeft = indent * depth - (canExpand && !selectable ? iconSize : 0);
+  const marginLeft = indent * (depth + 1) - (canExpand && !selectable ? iconSize : 0);
   return (
     <div
       style={{
