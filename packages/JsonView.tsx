@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { JsonContext, defaultValue } from "./JsonContext";
-import ElementWrap from "./components/ElementWrap";
-import React, { useCallback, useEffect, useState } from "react";
-import { isUndefined } from "./utils";
+import { JsonContext, defaultValue } from './JsonContext';
+import ElementWrap from './components/ElementWrap';
+import React, { useCallback, useEffect, useState } from 'react';
+import { isUndefined } from './utils';
 import {
   JsonViewProps,
   BaseValueType,
   SelectInfo,
   JsonContextType,
   Theme,
-} from "./global";
-import colorMap from "./theme";
-import useSelect from "./hooks/useSelect";
+} from './global';
+import colorMap from './theme';
+import useSelect from './hooks/useSelect';
 
 const JsonView: React.FC<JsonViewProps> = function ({
   value,
@@ -22,42 +22,68 @@ const JsonView: React.FC<JsonViewProps> = function ({
   showValueTypes,
   iconSize,
   stringMaxLength,
-  theme = "default",
+  theme = 'default',
   onSelect,
   className,
   style,
 }: JsonViewProps) {
-  const { selectedInfo, selectCandidate, innerOnSelect, selectableDict } = useSelect({ selectable: selectable || false, value, defaultSelect: false, onSelect });
-  
+  const { selectedInfo, selectCandidate, innerOnSelect, selectableDict } =
+    useSelect({
+      selectable: selectable || false,
+      value,
+      defaultSelect: false,
+      onSelect,
+    });
+
   const _onSelect = (info: SelectInfo) => {
-    innerOnSelect(info)
-  }
-  const defaultTheme = theme === "default" ? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light" : theme;
+    innerOnSelect(info);
+  };
+  const defaultTheme =
+    theme === 'default'
+      ? window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light'
+      : theme;
   const [_theme, setTheme] = useState<Theme>(colorMap(defaultTheme));
-  const changeTheme = useCallback((e: MediaQueryListEvent) => {
-    setTheme(colorMap(e.matches ? "dark" : "light"));
-  }, []);
+  const changeTheme = useCallback(
+    (e: MediaQueryListEvent) => {
+      if (theme !== 'default') return;
+      setTheme(colorMap(e.matches ? 'dark' : 'light'));
+    },
+    [theme]
+  );
 
   useEffect(() => {
     setTheme(colorMap(defaultTheme));
-    if (theme === "default") {
-      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", changeTheme);
+    if (theme === 'default') {
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', changeTheme);
       return () => {
-        window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", changeTheme);
-      }
+        window
+          .matchMedia('(prefers-color-scheme: dark)')
+          .removeEventListener('change', changeTheme);
+      };
     }
   }, [defaultTheme, theme, changeTheme]);
-  
 
   const props: JsonContextType = {
     ...defaultValue,
     selectable: isUndefined(selectable) ? defaultValue.selectable : selectable!,
-    showStringQuotes: isUndefined(showStringQuotes) ? defaultValue.showStringQuotes : showStringQuotes!,
+    showStringQuotes: isUndefined(showStringQuotes)
+      ? defaultValue.showStringQuotes
+      : showStringQuotes!,
     iconSize: iconSize || defaultValue.iconSize,
-    defaultExpanded: isUndefined(defaultExpanded) ? defaultValue.defaultExpanded : defaultExpanded!,
+    defaultExpanded: isUndefined(defaultExpanded)
+      ? defaultValue.defaultExpanded
+      : defaultExpanded!,
     defaultExpandDepth: defaultExpandDepth || defaultValue.defaultExpandDepth,
-    showValueTypes: isUndefined(showValueTypes) ? defaultValue.showValueTypes : showValueTypes!,
-    stringMaxLength: isUndefined(stringMaxLength) ? defaultValue.stringMaxLength : stringMaxLength!,
+    showValueTypes: isUndefined(showValueTypes)
+      ? defaultValue.showValueTypes
+      : showValueTypes!,
+    stringMaxLength: isUndefined(stringMaxLength)
+      ? defaultValue.stringMaxLength
+      : stringMaxLength!,
     theme: _theme,
     selectValueCandidate: selectCandidate,
     selectedInfo,
@@ -73,9 +99,9 @@ const JsonView: React.FC<JsonViewProps> = function ({
       <div
         className={className}
         style={{
-          fontSize: "14px",
-          fontFamily: "Consolas, Menlo, Courier, monospace",
-          boxSizing: "border-box",
+          fontSize: '14px',
+          fontFamily: 'Consolas, Menlo, Courier, monospace',
+          boxSizing: 'border-box',
           ...style,
         }}
       >

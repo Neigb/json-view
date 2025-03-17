@@ -160,6 +160,7 @@ export enum TypeEnum {
 }
 
 export interface Theme {
+  background: string;
   primary: string;
   secondary: string;
   string: string;

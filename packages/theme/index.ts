@@ -1,6 +1,7 @@
 import { Theme } from "../global";
 
 const lightTheme: Theme = {
+  background: '#fff',
   primary: '#000',
   secondary: '#E6E6E6',
   string: 'red',
@@ -16,6 +17,7 @@ const lightTheme: Theme = {
 }
 
 const darkTheme: Theme = {
+  background: '#000',
   primary: '#CCC',
   secondary: '#333',
   string: '#FFA500',
