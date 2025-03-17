@@ -3,7 +3,7 @@ import { JsonContextType } from './global';
 import colorMap from './theme';
 
 export const defaultValue: JsonContextType = {
-  indent: 18,
+  indent: 54,
   showStringQuotes: true,
   defaultExpanded: true,
   defaultExpandDepth: 1,

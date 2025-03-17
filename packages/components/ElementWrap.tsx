@@ -118,13 +118,13 @@ export default function ElementWrap({
     checked = false;
     indeterminate = false;
   }
-  const marginLeft = indent * (depth + 1) - (canExpand && !selectable ? iconSize : 0);
+  const marginLeft = (depth ? indent : iconSize) - (canExpand && !selectable ? iconSize : 0);
   return (
     <div
       style={{
         marginLeft: `${marginLeft}px`,
         padding: "2px 0",
-        paddingLeft: !depth ? "25px" : "0",
+        // paddingLeft: !depth ? "25px" : "0",
         boxSizing: "border-box",
         color: theme.primary,
       }}
