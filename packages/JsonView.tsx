@@ -16,6 +16,7 @@ import useSelect from './hooks/useSelect';
 const JsonView: React.FC<JsonViewProps> = function ({
   value,
   selectable,
+  indent,
   showStringQuotes,
   defaultExpanded,
   defaultExpandDepth,
@@ -47,10 +48,9 @@ const JsonView: React.FC<JsonViewProps> = function ({
   const [_theme, setTheme] = useState<Theme>(colorMap(defaultTheme));
   const changeTheme = useCallback(
     (e: MediaQueryListEvent) => {
-      if (theme !== 'default') return;
       setTheme(colorMap(e.matches ? 'dark' : 'light'));
     },
-    [theme]
+    []
   );
 
   useEffect(() => {
@@ -69,6 +69,7 @@ const JsonView: React.FC<JsonViewProps> = function ({
 
   const props: JsonContextType = {
     ...defaultValue,
+    indent: indent || defaultValue.indent,
     selectable: isUndefined(selectable) ? defaultValue.selectable : selectable!,
     showStringQuotes: isUndefined(showStringQuotes)
       ? defaultValue.showStringQuotes
